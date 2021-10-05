@@ -24,8 +24,8 @@ public class HorizontalSliderPage extends BasePageObject {
 	//find xOffset using given value
 	//max value 5.0, step - 0.5 (10 steps total)
 	//since drag-n-drop is performed from the center of locator, the central point of
-	//movement is 2.5. If range<2.5 the slider mover to the left, if range>2.5 - to the right
-	public void moveSlideTo(String value) {
+	//movement is 2.5. If range<2.5 the slider moves to the left, if range>2.5 - to the right
+	public void moveSliderTo(String value) {
 		log.info("Moving slider to " + value);
 		int width = find(sliderLocator).getSize().getWidth();
 		double doubleWidth = Double.valueOf(width);

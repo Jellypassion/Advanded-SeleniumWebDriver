@@ -3,13 +3,13 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="com.herokuapp.theinternet.loginpagetests.PositiveLoginTests">
+      <class name="com.herokuapp.theinternet.checkboxespagetest.CheckboxesTest">
         <methods>
-          <include name="logInTest"/>
+          <include name="selectTwoCheckboxesTest"/>
           <include name="tearDown"/>
           <include name="setUp"/>
         </methods>
-      </class> <!-- com.herokuapp.theinternet.loginpagetests.PositiveLoginTests -->
+      </class> <!-- com.herokuapp.theinternet.checkboxespagetest.CheckboxesTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

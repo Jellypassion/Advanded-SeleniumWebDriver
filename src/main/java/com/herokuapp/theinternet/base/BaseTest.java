@@ -22,7 +22,7 @@ public class BaseTest {
 
 	@Parameters({ "browser", "chromeProfile", "diviceName" })
 	@BeforeMethod(alwaysRun = true)
-	// If no parameter named "browser" is found in testng.xml file,
+	// If NO parameter named "browser" is found in testng.xml file,
 	// your test method will receive the default value specified inside the
 	// @Optional annotation: "chrome".
 	public void setUp(Method method, @Optional("chrome") String browser, @Optional String profile,

@@ -9,6 +9,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -32,33 +33,32 @@ public class BasePageObject {
 	protected void openUrl(String url) {
 		driver.get(url);
 	}
-	
-	//get page URL
+
+	// get page URL
 	public String getCurrentUrl() {
 		return driver.getCurrentUrl();
 	}
-	
+
 	/** Get title of current page */
 	public String getCurrentPageTitle() {
 		return driver.getTitle();
 	}
-	
+
 	/** Get source of current page */
 	public String getCurrentPageSource() {
 		return driver.getPageSource();
 	}
 
-
 	// Find element by locator
 	protected WebElement find(By locator) {
 		return driver.findElement(locator);
 	}
-	
-	//Find all elements by locator
+
+	// Find all elements by locator
 	protected List<WebElement> findAll(By locator) {
 		return driver.findElements(locator);
 	}
-	
+
 	/** Click on element with given locator when its visible */
 	protected void click(By locator) {
 		waitForVisibilityOf(locator, 5);
@@ -70,38 +70,43 @@ public class BasePageObject {
 		waitForVisibilityOf(locator, 5);
 		find(locator).sendKeys(text);
 	}
-	
-	//Switch to JavaScript alert
+
+	// Switch to JavaScript alert
 	protected Alert switchToAlert() {
 		WebDriverWait wait = new WebDriverWait(driver, 3);
 		wait.until(ExpectedConditions.alertIsPresent());
 		Alert alert = driver.switchTo().alert();
 		return alert;
 	}
-	
+
 //Check if the element is visible or not
-	protected boolean isVisible(By locator) {
-		waitForVisibilityOf(locator, 5);
-		WebElement element = find(locator);
-		if (element.isDisplayed() == false) {
-			log.info("The element" + element + "is not visible");
-			return false;
+	// Не работает, поскольку если элемента нет, то фейлится на этапе
+	// waitForVisibilityOf
+	protected boolean isElementDisplayed(By locator) {
+		Boolean elementCondition = false;
+		try {
+			waitForVisibilityOf(locator, 5);
+			elementCondition = find(locator).isDisplayed();
+		} catch (NoSuchElementException e) {
+			log.error("Element [" + locator + "] is not displayed");
+			return elementCondition;
 		}
-		return true;
+		log.info("Element [" + locator + "] is displayed");
+		return elementCondition;
 	}
-	
+
 //Get text from the element
 	protected String getTextFrom(By locator) {
 		waitForVisibilityOf(locator, 5);
 		WebElement element = find(locator);
 		String text = element.getText();
-		if (text==null||text.isEmpty()) {
+		if (text == null || text.isEmpty()) {
 			log.info("The element " + element + "does not contain text or text is invisible");
 		}
 		return text;
 	}
-	
-	//Switch to the window with provided title
+
+	// Switch to the window with provided title
 	protected void switchToWindowWithTitle(String title) {
 		String firstWindow = driver.getWindowHandle();
 		Set<String> allWindows = driver.getWindowHandles();
@@ -114,12 +119,12 @@ public class BasePageObject {
 				if (getCurrentPageTitle().equals(title)) {
 					break;
 				}
-				
+
 			}
-			
+
 		}
 	}
-	
+
 	/**
 	 * Wait for specific ExpectedCondition for the given amount of time in seconds
 	 */
@@ -145,34 +150,31 @@ public class BasePageObject {
 			attempts++;
 		}
 	}
-	
-	//A method to perform scroll to the bottom of the page using JS Executor
+
+	// A method to perform scroll to the bottom of the page using JS Executor
 	protected void scrollToBottom() {
 		log.info("Scrolling to the bottom of the page");
 		JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
 		jsExecutor.executeScript("window.scrollTo (0, document.body.scrollHeight)");
 	}
-	
-	//hover over some element
+
+	// hover over some element
 	protected void hoverOver(WebElement element) {
 		Actions a = new Actions(driver);
 		a.moveToElement(element).build().perform();
 	}
-	
-	//Add cookie
+
+	// Add cookie
 	public void setCookie(Cookie ck) {
 		log.info("Adding cookie " + ck.getName());
 		driver.manage().addCookie(ck);
 		log.info("Cookie added");
 	}
-	
-	//Get Cookie
+
+	// Get Cookie
 	public String getCookie(String name) {
 		log.info("Getting value of cookie " + name);
 		return driver.manage().getCookieNamed(name).getValue();
 	}
-	
-	
-	
-	
+
 }

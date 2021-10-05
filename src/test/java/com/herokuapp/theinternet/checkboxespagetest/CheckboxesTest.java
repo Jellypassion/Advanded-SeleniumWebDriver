@@ -22,6 +22,9 @@ public class CheckboxesTest extends TestUtilities {
 		sleep(2000);
 		//Verify all checkboxes are selected
 		Assert.assertEquals(checkboxesPage.areAllCheckboxesSelected(), true);
+		//Verify that footer is visible
+		Assert.assertTrue(checkboxesPage.isFooterDisplayed(), "Footer is not displayed");
+	
 		
 	}
 	

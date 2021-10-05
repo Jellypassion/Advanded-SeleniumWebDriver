@@ -16,7 +16,7 @@ public class HorizontalSliderTests extends TestUtilities {
 		HorizontalSliderPage sliderPage = new HorizontalSliderPage(driver, log);
 		sliderPage.openPage();
 		//move slider to value 3
-		sliderPage.moveSlideTo("1");
+		sliderPage.moveSliderTo("1.5");
 		sleep(2000);
 		//get the range value and verify it's correct
 		var range = sliderPage.getOffsetValue();
