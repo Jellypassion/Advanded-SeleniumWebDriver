@@ -1,4 +1,4 @@
-package com.herokuapp.theinternet.dropdowntests.windowstest;
+package com.herokuapp.theinternet.windowstest;
 
 import org.openqa.selenium.Keys;
 import org.testng.Assert;
